@@ -241,7 +241,7 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // title for controls segment
         JLabel controlsLabel = new JLabel("Controls");
-        controlsLabel.setFont(controlsLabel.getFont().deriveFont(28f));
+        controlsLabel.setFont(controlsLabel.getFont().deriveFont(21f));
         controlsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         settingsPanel.add(controlsLabel, gbc);
 
@@ -289,7 +289,7 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // title for colors segment
         JLabel colorsLabel = new JLabel("Colors");
-        colorsLabel.setFont(colorsLabel.getFont().deriveFont(28f));
+        colorsLabel.setFont(colorsLabel.getFont().deriveFont(21f));
         colorsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         gbc.gridy++;
         settingsPanel.add(colorsLabel, gbc);
@@ -311,6 +311,25 @@ public class F1 implements Runnable, NativeKeyListener {
         colorPanel[COLOR_TIMER_ON].add(new JLabel("Timer On: "), 0);
         colorPanel[COLOR_TIMER_PAUSED].add(new JLabel("Timer Paused: "), 0);
 
+        // title for settings segment
+        JLabel settingsLabel = new JLabel("Settings");
+        settingsLabel.setFont(settingsLabel.getFont().deriveFont(21f));
+        settingsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gbc.gridy++;
+        settingsPanel.add(settingsLabel, gbc);
+
+        // panel to hold option for always on top window
+        JPanel alwaysOnTopPanel = new JPanel();
+        alwaysOnTopPanel.setLayout(new GridLayout(0, 1));
+        gbc.gridy++;
+        settingsPanel.add(alwaysOnTopPanel, gbc);
+
+        // checkbox for always on top option
+        JCheckBox alwaysOnTopCheckBox = new JCheckBox("Always on Top: ");
+        alwaysOnTopCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
+        alwaysOnTopCheckBox.setSelected(windowAlwaysOnTop);
+        alwaysOnTopPanel.add(alwaysOnTopCheckBox);
+
         JButton saveButton = new JButton("Save and Close");
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -319,6 +338,8 @@ public class F1 implements Runnable, NativeKeyListener {
                 for(int i = 0; i < numColors; i++) {
                     Colors[i] = ((JTextField)colorPanel[i].getComponent(1)).getText();
                 }
+                windowAlwaysOnTop = alwaysOnTopCheckBox.isSelected();
+                frame.setAlwaysOnTop(windowAlwaysOnTop);
                 UpdateClockColors();
                 panel.validate();
                 panel.repaint();
