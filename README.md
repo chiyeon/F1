@@ -1,5 +1,5 @@
 # About
-**F1** is a simple, customizable speedrunning stopwatch, developed in Java 1.8 and JNativeHook.
+**F1** is a simple, customizable speedrunning stopwatch, developed in Java 1.8 with JNativeHook.
 
 # Features
  - Accurate stopwatch that rolls into minutes, hours, etc
