@@ -30,7 +30,7 @@ public class F1 implements Runnable, NativeKeyListener {
 
     // window settings
     public static String title = "F1";
-    public static int width = 360;
+    public static int width = 720;
     public static int height = 74;
 
     // window elements;
@@ -412,7 +412,7 @@ public class F1 implements Runnable, NativeKeyListener {
             String clockText = "";
             current = System.currentTimeMillis();
 
-            if((current-start)/1000.0 >= 60 + minutes*60) {
+            if((current-start)/1000.0 >= 60 + (hours * 60 * 60) + minutes*60) {
                 minutes++;
             }
 
@@ -422,7 +422,7 @@ public class F1 implements Runnable, NativeKeyListener {
             }
 
             if(hours > 0) {
-                float seconds = (current-start)/1000.0f - minutes * 60.0f;
+                float seconds = (current-start)/1000.0f - (hours * 60 * 60) - minutes * 60.0f;
                 String secondsString = String.valueOf(Math.floor(seconds * 100.0)/100.0);
                 clockText += String.valueOf(hours) + ":";
                 clockText += String.format("%02d:", minutes);
