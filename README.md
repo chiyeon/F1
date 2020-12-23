@@ -19,7 +19,7 @@ Hovering the mouse over the window reveals two buttons, one marked "X" to immedi
 
 Note: F1-release.jar will create a config.properties file in its current directory. This holds the program settings.
 
-# previews
+# Previews
 ![Clock Demo](https://i.imgur.com/ipsyClh.gif)
 
 *Demo of timer in its off, on, and paused states*
