@@ -1,0 +1,6 @@
+Version 1.1
+    added automatic window expansion
+        increases window size based on time (hours -> wider)
+    replaced settings titlebar with default window titlebar
+    removed clock border which offset the text too far
+    fixed bug where times from 1 hour onward were displaying incorrectly
