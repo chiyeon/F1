@@ -27,13 +27,13 @@ Note: F1-release.jar will create a config.properties file in its current directo
 <br />
 
 
-![Settings](https://i.imgur.com/ENao3Ln.gif)
+![Settings](https://i.imgur.com/WWkqHSo.png)
 
-*Changing colors/keybinds through settings menu*
+*Change colors/keybinds/settings through the options menu*
 
 # TODO
  - custom splits/split functionality
- - safeguard against incorrect hex values
+ - warn against incorrect hex values
  - easy copy & paste
  - clean code
  
