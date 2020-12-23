@@ -27,7 +27,7 @@ Note: F1-release.jar will create a config.properties file in its current directo
 <br />
 
 
-![Settings](https://i.imgur.com/WWkqHSo.png)
+![Settings](https://i.imgur.com/tzbJqii.png)
 
 *Change colors/keybinds/settings through the options menu*
 
