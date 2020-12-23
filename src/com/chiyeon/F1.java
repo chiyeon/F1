@@ -421,7 +421,7 @@ public class F1 implements Runnable, NativeKeyListener {
         settingsPanel.add(saveButton, gbc);
 
         // the main frame
-        settingsFrame = new JFrame("Settings");
+        settingsFrame = new JFrame("Options");
 
         settingsFrame.addWindowListener(new WindowAdapter() {
             // reset the keys, so that it does NOT save any changes
@@ -454,12 +454,14 @@ public class F1 implements Runnable, NativeKeyListener {
             for(int i = 0; i < Colors.length; i++) {
                 Colors[i] = lines[i].toString().substring(10);
             }
-            for(int i = Colors.length; i < lines.length; i++) {
+            for(int i = Colors.length; i < lines.length - 1; i++) {
                 Keys[i-Colors.length] = lines[i].toString().substring(7);
             }
 
+            windowAlwaysOnTop = Boolean.parseBoolean(((String)lines[Colors.length + Keys.length - 1]).substring(11));
+
         } catch(Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -474,6 +476,7 @@ public class F1 implements Runnable, NativeKeyListener {
             for(int i = 0; i < Keys.length; i++) {
                 contents += "key-" + i + ": " + Keys[i] + "\n";
             }
+            contents += "always-on: " + windowAlwaysOnTop;
             out.write(contents);
             out.close();
         } catch(Exception e) {
