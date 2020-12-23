@@ -9,10 +9,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -226,13 +223,6 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // in order to refresh if we quit without saving
         String keysBackup[] = Keys.clone();
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Keys = keysBackup;
-                settingsFrame.dispose();
-            }
-        });
 
         // the main panel of the settings window
         settingsPanel = new JPanel();
@@ -341,6 +331,16 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // the main frame
         settingsFrame = new JFrame("Settings");
+
+        settingsFrame.addWindowListener(new WindowAdapter() {
+            // reset the keys, so that it does NOT save any changes
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                super.windowClosing(windowEvent);
+                Keys = keysBackup;
+            }
+        });
+
         settingsFrame.add(settingsPanel);
         settingsFrame.setSize(360, 640);
         settingsFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
