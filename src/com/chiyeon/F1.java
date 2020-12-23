@@ -72,6 +72,7 @@ public class F1 implements Runnable, NativeKeyListener {
         "F2",
         "Escape"
     };
+    private boolean windowAlwaysOnTop = true;
 
     private MouseAdapter windowMouseHandler = new MouseAdapter() {
         private Point mouseOffset;
@@ -196,6 +197,7 @@ public class F1 implements Runnable, NativeKeyListener {
         frame.setUndecorated(true);
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
+        frame.setAlwaysOnTop(windowAlwaysOnTop);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -214,6 +216,7 @@ public class F1 implements Runnable, NativeKeyListener {
         newKeyMessageDialog.setModal(true);
         newKeyMessageDialog.setContentPane(newKeyMessage);
         newKeyMessageDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        newKeyMessageDialog.setAlwaysOnTop(windowAlwaysOnTop);
         newKeyMessageDialog.pack();
         newKeyMessageDialog.setLocationRelativeTo(null);
         newKeyMessageDialog.setVisible(true);
@@ -223,23 +226,6 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // in order to refresh if we quit without saving
         String keysBackup[] = Keys.clone();
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, 1));
-
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new GridBagLayout());
-        GridBagConstraints titleConstraints = new GridBagConstraints();
-        titleConstraints.gridx = 0;
-        titleConstraints.gridy = 0;
-        titleConstraints.weightx = 0.1;
-        titleConstraints.weighty = 2.0;
-        titleConstraints.fill = GridBagConstraints.HORIZONTAL;
-
-        JButton quitButton = new JButton("X");
-        quitButton.setBackground(Color.decode("#ff4646"));
-        quitButton.setBorderPainted(false);
-        quitButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -248,15 +234,6 @@ public class F1 implements Runnable, NativeKeyListener {
             }
         });
 
-        JLabel title = new JLabel("Settings Menu", SwingConstants.CENTER);
-        title.setBackground(Color.blue);
-        titlePanel.add(title, titleConstraints);
-        titleConstraints.gridx+=2;
-        titlePanel.add(quitButton, titleConstraints);
-
-
-        mainPanel.add(titlePanel);
-
         // the main panel of the settings window
         settingsPanel = new JPanel();
         //settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
@@ -264,7 +241,6 @@ public class F1 implements Runnable, NativeKeyListener {
         settingsPanel.setBorder(new EmptyBorder(0, 12, 12, 12));
         settingsPanel.addMouseListener(windowMouseHandler);
         settingsPanel.addMouseMotionListener(windowMouseHandler);
-        mainPanel.add(settingsPanel);
 
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -365,10 +341,10 @@ public class F1 implements Runnable, NativeKeyListener {
 
         // the main frame
         settingsFrame = new JFrame("Settings");
-        settingsFrame.add(mainPanel);
+        settingsFrame.add(settingsPanel);
         settingsFrame.setSize(360, 640);
-        settingsFrame.setUndecorated(true);
-        settingsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        settingsFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        settingsFrame.setAlwaysOnTop(windowAlwaysOnTop);
         settingsFrame.pack();
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setVisible(true);
