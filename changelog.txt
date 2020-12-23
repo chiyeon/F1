@@ -1,4 +1,5 @@
 Version 1.1
+    added color pickers to the settings menu
     added automatic window expansion
         increases window size based on time (hours -> wider)
     stopwatch window is now always above other windows (unless disabled in settings)
