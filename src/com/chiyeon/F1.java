@@ -150,7 +150,6 @@ public class F1 implements Runnable, NativeKeyListener {
         clock = new JLabel("0.00");
         clock.setFont(clock.getFont().deriveFont(64.0f));
         clock.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        clock.setBorder(new EmptyBorder(8, 8, 8, 8));
         panel.add(clock);
 
         // quit message shown when confirming user wants to exit
