@@ -30,8 +30,9 @@ public class F1 implements Runnable, NativeKeyListener {
 
     // window settings
     public static String title = "F1";
-    public static int width = 720;
+    public static int width = 320;
     public static int height = 74;
+    private int expansions = 0;         // expanded when hours expands past the current window limit
 
     // window elements;
     private JFrame frame;
@@ -419,6 +420,12 @@ public class F1 implements Runnable, NativeKeyListener {
             if(minutes >= 60) {
                 hours++;
                 minutes = 0;
+
+                String hoursString = String.valueOf(hours);
+                if(hoursString.length() > expansions) {
+                    expansions++;
+                    frame.setSize(width + 72 * expansions, height);
+                }
             }
 
             if(hours > 0) {
