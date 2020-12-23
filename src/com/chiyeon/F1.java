@@ -8,6 +8,11 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -222,7 +227,10 @@ public class F1 implements Runnable, NativeKeyListener {
     private void InitializeSettingsFrame() {
 
         // in order to refresh if we quit without saving
+        // load backups when closing w/o saving in case player has
+        // no save file
         String keysBackup[] = Keys.clone();
+        String colorsBackup[] = Colors.clone();
 
         // the main panel of the settings window
         settingsPanel = new JPanel();
@@ -298,8 +306,40 @@ public class F1 implements Runnable, NativeKeyListener {
 
         JPanel colorPanel[] = new JPanel[numColors];
         for(int i = 0; i < numColors; i++) {
+            final int index = i;
             colorPanel[i] = new JPanel();
-            colorPanel[i].add(new JTextField(Colors[i]));
+            JTextField textField = new JTextField(Colors[i]);
+            colorPanel[i].add(textField);
+
+            JButton colorPreview = new JButton();
+            colorPreview.setOpaque(true);
+            colorPreview.setBackground(Color.decode(Colors[i]));
+            colorPreview.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    JColorChooser chooser = new JColorChooser();
+                    AbstractColorChooserPanel[] chooserPanels = new AbstractColorChooserPanel[] { chooser.getChooserPanels()[1] };
+                    chooser.setChooserPanels(chooserPanels);
+                    chooser.getSelectionModel().addChangeListener(new ChangeListener() {
+                        @Override
+                        public void stateChanged(ChangeEvent e) {
+                            Color newColor = chooser.getColor();
+                            Colors[index] = "#" + Integer.toHexString(newColor.getRGB()).substring(2);
+                            ((JTextField)colorPanel[index].getComponent(1)).setText(Colors[index]);
+                        }
+                    });
+
+                    JDialog dialog = new JDialog();
+                    dialog.add(chooser);
+                    dialog.setTitle("Choose new color");
+                    dialog.setAlwaysOnTop(windowAlwaysOnTop);
+                    dialog.setLocationRelativeTo(settingsFrame);
+                    dialog.pack();
+                    dialog.setVisible(true);
+                }
+            });
+            colorPanel[i].add(colorPreview);
+
             colorPanel[i].setLayout(new GridLayout(1, 0));
             gbc.gridy++;
             settingsPanel.add(colorPanel[i], gbc);
@@ -310,6 +350,36 @@ public class F1 implements Runnable, NativeKeyListener {
         colorPanel[COLOR_TIMER_OFF].add(new JLabel("Timer Off: "), 0);
         colorPanel[COLOR_TIMER_ON].add(new JLabel("Timer On: "), 0);
         colorPanel[COLOR_TIMER_PAUSED].add(new JLabel("Timer Paused: "), 0);
+
+        for(int i = 0; i < 4; i++) {
+            final int index = i;
+            JTextField textField = ((JTextField)colorPanel[index].getComponent(1));
+            JButton preview = ((JButton)colorPanel[index].getComponent(2));
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    update(e);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    update(e);
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    update(e);
+                }
+
+                private void update(DocumentEvent e) {
+                    try {
+                        preview.setBackground(Color.decode(textField.getText()));
+                    } catch(Exception ex) {
+
+                    }
+                }
+            });
+        }
 
         // title for settings segment
         JLabel settingsLabel = new JLabel("Settings");
@@ -359,6 +429,7 @@ public class F1 implements Runnable, NativeKeyListener {
             public void windowClosing(WindowEvent windowEvent) {
                 super.windowClosing(windowEvent);
                 Keys = keysBackup;
+                Colors = colorsBackup;
             }
         });
 
@@ -369,6 +440,10 @@ public class F1 implements Runnable, NativeKeyListener {
         settingsFrame.pack();
         settingsFrame.setLocationRelativeTo(null);
         settingsFrame.setVisible(true);
+    }
+
+    public Color getInvertedColor(Color color) {
+        return new Color(255 - color.getRed(), 255 - color.getBlue(), 255 - color.getGreen());
     }
 
     private void LoadConfig() {
