@@ -77,44 +77,6 @@ public class F1 implements Runnable, NativeKeyListener {
     };
     private boolean windowAlwaysOnTop = true;
 
-    private MouseAdapter windowMouseHandler = new MouseAdapter() {
-        private Point mouseOffset;
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            panel.add(buttonsPanel, 0);
-            panel.revalidate();
-            panel.repaint();
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if(!panel.contains(e.getPoint())) {
-                panel.remove(buttonsPanel);
-                panel.revalidate();
-                panel.repaint();
-            }
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (mouseOffset != null) {
-                Point position = e.getLocationOnScreen();
-                int newX = position.x - mouseOffset.x;
-                int newY = position.y - mouseOffset.y;
-                SwingUtilities.getWindowAncestor(e.getComponent()).setLocation(newX, newY);
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            Point position = e.getComponent().getLocationOnScreen();
-            mouseOffset = new Point(e.getLocationOnScreen());
-            mouseOffset.x -= position.x;
-            mouseOffset.y -= position.y;
-        }
-    };
-
     public static void main(String[] args) {
         try {
             // register for global input recognition
@@ -149,6 +111,43 @@ public class F1 implements Runnable, NativeKeyListener {
         // set up main panel, with mouse handler to allow relocation
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        MouseAdapter windowMouseHandler = new MouseAdapter() {
+            private Point mouseOffset;
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel.add(buttonsPanel, 0);
+                panel.revalidate();
+                panel.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if(!panel.contains(e.getPoint())) {
+                    panel.remove(buttonsPanel);
+                    panel.revalidate();
+                    panel.repaint();
+                }
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (mouseOffset != null) {
+                    Point position = e.getLocationOnScreen();
+                    int newX = position.x - mouseOffset.x;
+                    int newY = position.y - mouseOffset.y;
+                    SwingUtilities.getWindowAncestor(e.getComponent()).setLocation(newX, newY);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Point position = e.getComponent().getLocationOnScreen();
+                mouseOffset = new Point(e.getLocationOnScreen());
+                mouseOffset.x -= position.x;
+                mouseOffset.y -= position.y;
+            }
+        };
         panel.addMouseListener(windowMouseHandler);
         panel.addMouseMotionListener(windowMouseHandler);
 
@@ -237,8 +236,6 @@ public class F1 implements Runnable, NativeKeyListener {
         //settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
         settingsPanel.setLayout(new GridBagLayout());
         settingsPanel.setBorder(new EmptyBorder(0, 12, 12, 12));
-        settingsPanel.addMouseListener(windowMouseHandler);
-        settingsPanel.addMouseMotionListener(windowMouseHandler);
 
 
         GridBagConstraints gbc = new GridBagConstraints();
