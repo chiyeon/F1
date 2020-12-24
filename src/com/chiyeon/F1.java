@@ -498,6 +498,9 @@ public class F1 implements Runnable, NativeKeyListener {
         StopTime();
         thread = new Thread(this);
         clock.setForeground(Color.decode(Colors[COLOR_TIMER_OFF]));
+        minutes = 0;
+        hours = 0;
+        frame.setSize(width, height);
         clock.setText("0.00");
     }
 
