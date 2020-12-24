@@ -1,3 +1,7 @@
+Version 1.1.1
+    Fixed issue where the "window always on top" option didn't load from saved config
+    Fixed issue where the timer & window wouldn't reset when the clock reset
+
 Version 1.1
     added color pickers to the settings menu
     added automatic window expansion
