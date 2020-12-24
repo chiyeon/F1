@@ -13,8 +13,8 @@ F1 can be started and stopped to keep an accurate record of time, from a few sec
 Hovering the mouse over the window reveals two buttons, one marked "X" to immediately close the application, and another marked "S" to open the settings menu. Currently, the customizable colors only accept hexademical values with a "#" in front, notated as "#ff00ff".
 
 # Download
-1. Download/clone repo into a .zip file
-2. extract the release folder to target location
+1. Download latest release
+2. extract to a location
 3. run F1-release.jar
 
 Note: F1-release.jar will create a config.properties file in its current directory. This holds the program settings.
