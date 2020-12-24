@@ -455,7 +455,8 @@ public class F1 implements Runnable, NativeKeyListener {
                 Keys[i-Colors.length] = lines[i].toString().substring(7);
             }
 
-            windowAlwaysOnTop = Boolean.parseBoolean(((String)lines[Colors.length + Keys.length - 1]).substring(11));
+            System.out.println(lines[Colors.length + Keys.length].toString().substring(11));
+            windowAlwaysOnTop = Boolean.parseBoolean(lines[Colors.length + Keys.length].toString().substring(11));
 
         } catch(Exception e) {
             e.printStackTrace();
